@@ -8,7 +8,7 @@ const {Secp256k1PrivateKey} = require('sawtooth-sdk/signing/secp256k1')
 const {TextEncoder, TextDecoder} = require('text-encoding/lib/encoding')
 
 
-FAMILY_NAME='landreg'
+FAMILY_NAME='landreg';
 
 prkey = "";
 function hash(v) {

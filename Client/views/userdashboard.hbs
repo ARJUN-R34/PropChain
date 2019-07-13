@@ -56,7 +56,7 @@
             <br><br><br>
             <h3><b>Aadhar Number :</b></h3>
             <br>
-            <h4>{{id}}</h4>
+            <h4>{{aadhar}}</h4>
             <br><br><br>
             <form>
                 <div class="form-group">
@@ -104,7 +104,7 @@
         var prop_name = document.getElementById('prop_name').value;
         var prop_area = document.getElementById('prop_area').value;
         var prop_loc = document.getElementById('prop_location').value;
-        $.post('/usr2', { name: prop_name, area: prop_area, loc: prop_loc }, 'json');
+        $.post('/propdataupload', { name: prop_name, area: prop_area, location: prop_loc }, 'json');
     }
     function dd2() {
         var prop_area = document.getElementById('prop_area1').value;

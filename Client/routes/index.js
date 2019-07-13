@@ -38,8 +38,8 @@ router.get('/user',(req,res)=>{
     var field_data = data['data'];
     field_data = field_data[0];
     name = JSON.stringify(field_data.name);
-    id   = JSON.stringify(field_data.id);
-    res.render('userdashboard',{name, id});
+    aadhar = JSON.stringify(field_data.aadhar);
+    res.render('userdashboard',{name, aadhar});
   
   });
 
@@ -186,10 +186,10 @@ router.post('/usr1',(req,res) => {
 
 
 
-router.post('/usr2',(req,res)=>{
+router.post('/propdataupload', (req, res) => {
   var name = req.body.name;
   var area = req.body.area;
-  var loc = req.body.loc;
+  var location = req.body.location;
   var file_name =req.cookies.file_name;
     
   fs.readFile(file_name, 'utf8', (err, data) => {
@@ -198,7 +198,7 @@ router.post('/usr2',(req,res)=>{
     } 
     else {
       obj = JSON.parse(data); 
-      obj.data.push({ property_name:name,property_area:area,property_location:loc }); 
+      obj.data.push({ property_name:name, property_area:area, property_location:location }); 
       json = JSON.stringify(obj);
       fs.writeFile(file_name, json, 'utf8', (err) => {
         if(err) {

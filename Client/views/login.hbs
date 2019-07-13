@@ -1,0 +1,119 @@
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<style>
+    .login-container {
+        {{!-- margin-top: 5%;
+        margin-bottom: 5%; --}}
+    }
+
+    .login-form-1 {
+        padding: 9%;
+        background: #282726;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .login-form-1 h3 {
+        text-align: center;
+        margin-bottom: 12%;
+        color: #fff;
+    }
+
+    .login-form-2 {
+        padding: 9%;
+        background: #f05837;
+        box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .login-form-2 h3 {
+        text-align: center;
+        margin-bottom: 12%;
+        color: #fff;
+    }
+
+    .btnSubmit {
+        font-weight: 600;
+        width: 50%;
+        color: #282726;
+        background-color: #fff;
+        border: none;
+        border-radius: 1.5rem;
+        padding: 2%;
+    }
+
+    .btnForgetPwd {
+        color: #fff;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .btnForgetPwd:hover {
+        text-decoration: none;
+        color: #fff;
+    }
+</style>
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="login-container">
+    <div class="row">
+        <div class="col-md-6 login-form-1">
+            <h3>User Login</h3>
+            <form action="/user" method="GET"> 
+            <div class="form-group">
+                <input type="text" id="userprivatekey" class="form-control" placeholder="Your Private Key *" value="" />
+            </div>
+            <br>
+            <div class="form-group">
+                <input type="text" id="aadhar" class="form-control" placeholder="Your Aadhar Number *" value="" />
+            </div>
+            <br>
+            <div class="form-group">
+                <input type="text" id="name" class="form-control" placeholder="Your Name *" value="" />
+            </div>
+            <br>
+            <div class="form-group">
+                <button type="submit" onclick="userlogin()" class="btnSubmit" >LOGIN</button>
+            </div>
+            </form>
+        </div>
+        <div class="col-md-6 login-form-2">
+            
+            <h3>Registrar Login</h3>
+             <form action="/registrar" method="GET">
+            <div class="form-group">
+                <input type="text" id="registrarprivatekey" class="form-control" placeholder="Your Private Key *" />
+            </div>
+            <br>
+            <div class="form-group">
+                <button type="submit" onclick="registrarlogin()" class="btnSubmit">LOGIN</button>
+            </div>
+            
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    function userlogin() {
+            // event.preventDefault();
+            console.log('write user function running');
+            var userprivatekey = document.getElementById('userprivatekey').value
+            var aadhar = document.getElementById('aadhar').value
+            var name = document.getElementById('name').value
+            $.post('/user', { userprivatekey, aadhar, name }, (data, textStatus, jqXHR) => {
+                if (data.ss = 1) {
+                    console.log('inside aaaa');
+                    sessionStorage.clear();
+                    sessionStorage.setItem("no", data.userprivatekey);
+                    sessionStorage.setItem("name", data.name);
+                    window.location.href = "/user";
+                } else { window.location.href = "/test" }
+            }, 'json');
+        }
+
+</script>

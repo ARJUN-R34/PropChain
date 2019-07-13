@@ -1,0 +1,66 @@
+
+
+
+
+<link rel='stylesheet' href='/stylesheets/dashboards.css' />
+<script src='/javascripts/main.js'></script>
+<h1>Land registration</h1>
+<div class="form-modal">
+ 
+ 
+   
+ 
+    <div>
+        <form action="/regstr" method="GET"> 
+            
+
+                        
+                       
+                        <tr>
+                            <td><input type="text" id="pvtkey" placeholder="enter your private key"></td></tr>
+                         <tr><td> <button   class="btn signup" onclick= "writereg()" >Submit</button></td>
+                        
+                        </tr>
+
+                    </form><hr>    
+         
+        <form action="/usr" method="GET"><table>               
+
+                           
+                           <tr><td><input type="text" id="usrpvtkey" placeholder="enter your private key"></td></tr>
+                            <tr><td><input type="text" id="adhar" placeholder="enter your adhar number"></td></tr>
+                            <tr><td><input type="text" id="name" placeholder="enter your name"></td></tr>
+                            <tr><td><button type="submit"  class="btn signup" onclick= "writeusr()" > Submit</button>
+                            <td><td>
+
+                            </td>
+                        </tr>    
+
+                       
+                    </table>
+            
+           
+           
+        </form>
+    </div>
+ 
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script>
+function writeusr(){
+    const pvtkey = document.getElementById('usrpvtkey').value;
+       const adhar_no = document.getElementById('adhar').value;
+       const usr_name = document.getElementById('name').value;
+    $.post('/usr',{key:pvtkey,no:adhar_no,name:usr_name},'json');
+}
+
+function writereg(){
+       var pvtkey = document.getElementById('pvtkey').value;
+      $.get('/regstr',{key:pvtkey},'json');
+}
+
+
+
+</script>

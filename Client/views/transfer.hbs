@@ -1,0 +1,101 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<style>
+    .table,
+    .th,
+    .td {
+        border: 1px solid #ddd;
+    }
+
+    .table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .th,
+    .td {
+        padding: 15px;
+    }
+
+    .body {
+        background: #fff;
+    }
+
+    .body::after {
+        content: "";
+        background: url(https://images.unsplash.com/photo-1464938050520-ef2270bb8ce8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1953&q=80);
+        opacity: 0.25;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        position: absolute;
+        z-index: -1;
+    }
+</style>
+
+<body class="body">
+    
+    <p>*if the table is emty no ownership chane request recived</p>
+    <table>
+    
+        <tr>
+    
+    
+            <th>buyer name</td>
+            <th>buyer id</td>
+            <th>seller name</td>
+            <th>seller id</td>
+            <th>prop_name</td>
+            <th>prop_area</th>
+            <th>prop_location</th>
+    
+        </tr>
+    
+        {{#each data}}
+        {{#each this}}
+        <tr>
+    
+            <td>{{buyerid}}</td>
+            <td>{{buyername}}</td>
+            <td>{{sellername}}</td>
+            <td>{{clientno}}</td>
+            <td>{{prop_name}}</td>
+            <td>{{prop_area}}</td>
+            <td>{{prop_loc}}</td>
+    
+    
+        </tr>
+        {{/each}}
+        {{/each}}
+    
+    </table>
+    
+    <p> To change ownership enter details</p>
+    
+    <form action="/" method="GET">
+        <input type="text" id="pvtkey" placeholder="enter private key">
+        <input type="text" id="buyername" placeholder="buyer name">
+        <input type="text" id="buyerid" placeholder="buyer id">
+        <input type="text" id="sellername" placeholder="seller name">
+        <input type="text" id="sellerid" placeholder="seller id">
+        <input type="text" id="prop_name" placeholder="property name">
+        <input type="text" id="prop_area" placeholder="property area">
+        <input type="text" id="prop_loc" placeholder="property location">
+        <button type="submit" onclick="data()">submit </button>
+    </form>
+
+</body>
+
+<script>
+    function data() {
+        var pvtkey = document.getElementById('pvtkey').value;
+        var buyername = document.getElementById('buyername').value;
+        var buyerid = document.getElementById('buyerid').value;
+        var prop_name = document.getElementById('prop_name').value;
+        var sellername = document.getElementById('sellername').value;
+        var sellerid = document.getElementById('sellerid').value;
+        var prop_loc = document.getElementById('prop_loc').value;
+        var prop_area = document.getElementById('prop_area').value;
+        $.post('/chaneg_owner', { pvtkey: pvtkey, buyername: buyername, buyerid: buyerid, sellername: sellername, sellerid: sellerid, prop_name: prop_name, prop_area: prop_area, prop_loc: prop_loc }, 'json');
+    }
+</script>

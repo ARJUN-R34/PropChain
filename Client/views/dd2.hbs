@@ -1,0 +1,120 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
+<style>   
+    .table, .th {
+        border:  solid black;
+    }
+
+    .body {
+        background: #fff;        
+    }
+
+    .body::after {
+        content: "";
+        background: url(https://images.unsplash.com/photo-1464938050520-ef2270bb8ce8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1953&q=80);
+        opacity: 0.25;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        position: absolute;
+        z-index: -1;
+    }
+
+</style>
+
+<body class="body">
+    
+    <table>
+        <h4>users proprty</h4>
+    
+        <tr>
+            <th>name</th>
+            <th>id</th>
+            <th>property_name</th>
+            <th>property_area</th>
+            <th>property_location</th>
+            <th>hash</th>
+        </tr>
+        {{#each usrlst}}
+        <tr>
+    
+            <td>{{name}}</td>
+            <td>{{id}}</td>
+            <td>{{property_name}}</td>
+            <td>{{property_area}}</td>
+            <td>{{property_location}}</td>
+            <td>{{hash}}</td>
+    
+    
+        </tr>
+        {{/each}}
+    
+    </table>
+    <br><br><br>
+    <br><br><br>
+    <br><br><br>
+    
+    <table>
+        <h3>Properties available in your location</h3>
+    
+        <tr>
+            <th>name</th>
+            <th>property_name</th>
+            <th>property_area</th>
+            <th>property_location</th>
+        </tr>
+    
+        {{#each othrlst}}
+        <tr>
+    
+            <td>{{name}}</td>
+            <td>{{property_name}}</td>
+            <td>{{property_area}}</td>
+            <td>{{property_location}}</td>
+    
+    
+    
+        </tr>
+        {{/each}}
+    
+    </table>
+    
+    <br><br><br>
+    <br><br><br>
+    
+    <form>
+        <input type="text" id="usrid" placeholder="enter user adhar">
+        <input type="text" id="usrname" placeholder="enter user name">
+        <input type="text" id="clientid" placeholder=" enter property owners name">
+        <input type="text" id="prop_name" placeholder=" enter property name">
+        <input type="text" id="prop_area" placeholder=" enter property area">
+        <input type="text" id="prop_loc" placeholder=" enter property location">
+    
+    
+        <button type="button" onclick="req_buy()">request</button><br>
+    
+    </form>
+    <form action="/req_buy_list" method="GET">
+        <input type="text" id="name" placeholder="enter your name">
+    
+        <button type="submit" onclick="req_buy_confirm()">chech out people interested in your proprty</button>
+    </form>
+</body>
+
+<script>
+    function req_buy() {
+        console.log('reqBuy');
+        var usrid = document.getElementById("usrid").value;
+        var usrname = document.getElementById("usrname").value;
+        var clientid = document.getElementById("clientid").value;
+        var prop_name = document.getElementById("prop_name").value;
+        var prop_area = document.getElementById("prop_area").value;
+        var prop_loc = document.getElementById("prop_loc").value;
+        $.post('/reqBuy', { buyerid: usrid, sellername: clientid, prop_name: prop_name, prop_area: prop_area, prop_loc: prop_loc, usrname: usrname }, 'json');
+    }
+    function req_buy_confirm() {
+        var name = document.getElementById("name").value;
+        $.get('/req_buy_list', { name: name });
+    }
+</script>

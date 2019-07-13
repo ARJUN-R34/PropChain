@@ -1,0 +1,117 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
+<style>
+    .body {
+        background: #fff;
+    }
+
+    .body::after {
+        content: "";
+        background: url(https://images.unsplash.com/photo-1464938050520-ef2270bb8ce8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1953&q=80);
+        opacity: 0.25;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        position: absolute;
+        z-index: -1;
+    }
+
+    .container {
+        margin-top: 5%;
+        margin-bottom: 5%;
+        background: #f05837;
+        padding: 5% 5%;
+    }
+
+</style>
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<body class="body">
+        <h2><b><u>USER DASHBOARD</u></b></h2>
+        <br><br><br>
+
+        <form action="/usr1" enctype="multipart/form-data" method="POST">
+            <div class="file-field">
+                <a class="btn-floating blue-gradient mt-0 float-left">
+                    <i class="far fa-heart" aria-hidden="true"></i>
+                    <input type="file" id="myfile" name="myfile">
+                </a>
+
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="submit" value='upload'>
+                </div>
+            </div>
+        </form>
+        <br><br><br>
+
+        <form>
+            <h3><b>Username :</b></h3>
+            <br>
+            <h4>{{name}}</h4>
+            <br><br><br>
+            <h3><b>Aadhar Number :</b></h3>
+            <br>
+            <h4>{{id}}</h4>
+            <br><br><br>
+            <form>
+                <div class="form-group">
+                    <label for="prop_name">Property Name :</label>
+                    <input type="text" class="form-control" id="prop_name" placeholder="Enter Property Name">
+                </div>
+                <div class="form-group">
+                    <label for="prop_area">Property Area :</label>
+                    <input type="text" class="form-control" id="prop_area" placeholder="Property Area">
+                </div>
+                <div class="form-group">
+                    <label for="prop_location">Property Location :</label>
+                    <input type="text" class="form-control" id="prop_location" placeholder="Property Location">
+                </div>
+                <button type="button" class="btn btn-success" onclick="send_data()">SUBMIT</button>
+            </form>
+            <br>
+
+            &nbsp &nbsp &nbsp
+            <form action="/" method="GET">
+                <button class="btn btn-danger" onclick="logout()">LOGOUT</button></form>
+            <br><br><br>
+            <br><br><br>
+            <p>Enter to view users owned properties</p>
+            <form action="/dd2" method="GET">
+                <div class="form-group">
+                    <label for="prop_area">Property Area :</label>
+                    <input type="text" class="form-control" id="prop_area1" placeholder="Property Area">
+                </div>
+                <div class="form-group">
+                    <label for="prop_location">Property Location :</label>
+                    <input type="text" class="form-control" id="prop_location1" placeholder="Property Location">
+                </div>
+                <button class="btn btn-danger" onclick="dd2()">dashboard</button>
+            </form>
+
+    </div>
+
+
+</body>
+
+
+<script>
+    function send_data() {
+        var prop_name = document.getElementById('prop_name').value;
+        var prop_area = document.getElementById('prop_area').value;
+        var prop_loc = document.getElementById('prop_location').value;
+        $.post('/usr2', { name: prop_name, area: prop_area, loc: prop_loc }, 'json');
+    }
+    function dd2() {
+        var prop_area = document.getElementById('prop_area1').value;
+        var prop_loc = document.getElementById('prop_location1').value;
+        $.get('/dd2', { area: prop_area, loc: prop_loc }, 'json');
+    }
+    function logout() {
+        $.get('/');
+    }
+</script>

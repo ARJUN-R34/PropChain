@@ -1,0 +1,123 @@
+<style>
+    .body {
+        background: #fff;        
+    }
+
+    .body::after {
+        content: "";
+        background: url(https://images.unsplash.com/photo-1464938050520-ef2270bb8ce8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1953&q=80);
+        opacity: 0.25;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        position: absolute;
+        z-index: -1;
+    }
+
+    .container {
+        margin-top: 5%;
+        margin-bottom: 5%;
+        background: #f05837;
+        padding: 5% 5%;
+
+    }
+    
+    .table, .th, .td {
+        border: 1px solid black;
+    }
+
+ </style>
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<body class="body">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Adhar</th>
+                <th>Property name</th>
+                <th>Property area</th>
+                <th>property location</th>
+                <th>File name</th>
+                <th>File hash</th>
+
+
+            </tr>
+
+            {{#each data}}
+            <tr>
+                {{#each this}}
+                <td>{{name}}</td>
+                <td>{{id}}</td>
+                <td>{{property_name}}</td>
+                <td>{{property_area}}</td>
+                <td>{{property_location}}</td>
+                <td>{{file}}</td>
+                <td>{{hash}}</td>
+
+                {{/each}}
+            </tr>
+            {{/each}}
+
+
+        </table>
+
+
+        <br><br>
+        <a href="localhost:4000" target="_blank">Go to ipfs upload module</a>
+        <br><br><br>
+        <form>
+            <input type="text" id="adhno" placeholder="enter users adhar number" />
+            <button class="btn btn-success" onclick="retrive_hash(event)">retrive hash</button><br>
+            <input type="text" id="adhno1" placeholder="enter users adhar number" />
+            <input type="text" id="key" placeholder="enter registrar pvt key" />
+            <button class="btn btn-success" onclick="send_to_block(event)">Add to block</button><br>
+            <input type="text" id="adhno2" placeholder="enter users adhar number" />
+            <button class="btn btn-danger" onclick="reject()">Reject</button></form>
+        <br><br><br>
+        <p>click view data to see data added to the state.Report illeagel entry.</p>
+        <form action="/dd1" method="GET">
+            <button type="submit" class="btn btn-danger" onclick="reject1()">view data</button>
+
+        </form> <br><br><br>
+        <p>enter to see ownership transfer requests</p>
+        <form action="/transfer" method="GET">
+            <button type="submit" class="btn btn-danger" onclick="transfer()">transfer</button>
+
+        </form>
+
+
+
+</body>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+
+<script>
+    function retrive_hash(event) {
+        var id = document.getElementById('adhno').value;
+        event.preventDefault();
+        $.post('/hash', { id: id }, 'json');
+    };
+    function send_to_block(e) {
+        e.preventDefault();
+        var key = document.getElementById('key').value;
+        var id = document.getElementById('adhno1').value;
+        $.post('/block', { key: key, id: id }, 'json');
+    };
+    function reject(event) {
+        var id = document.getElementById('adhno2').value;
+        $.post('/rjct', { id: id });
+    };
+    function reject1(event) {
+
+        $.get('/dd1');
+    };
+    function transfer(event) {
+
+        $.get('/transfer');
+    };
+</script>

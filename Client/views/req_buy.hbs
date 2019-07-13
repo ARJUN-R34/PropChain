@@ -1,0 +1,97 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+<style>
+    .table,
+    .th,
+    .td {
+        border: 1px solid #ddd;
+    }
+
+    .table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .th,
+    .td {
+        padding: 15px;
+    }
+    .body {
+        background: #fff;        
+    }
+
+    .body::after {
+        content: "";
+        background: url(https://images.unsplash.com/photo-1464938050520-ef2270bb8ce8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1953&q=80);
+        opacity: 0.25;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        position: absolute;
+        z-index: -1;
+    }
+
+</style>
+
+<body class="body">
+    
+    <p>*if the table is empty you have no requests</p>
+    
+    
+    
+    <table>
+        <h4>users proprty</h4>
+    
+        <tr>
+    
+            <th>buyer name</th>
+            <th>buyer id</th>
+            <th>seller name</th>
+            <th>property name</th>
+            <th>property area</th>
+            <th>property location</th>
+    
+        </tr>
+    
+    
+    
+    
+        {{#each data}}
+        <tr>
+    
+    
+            <td>{{buyername}}</td>
+            <td>{{buyerid}}</td>
+            <td>{{sellername}}</td>
+            <td> {{prop_name}} </td>
+            <td> {{prop_area}}</td>
+            <td> {{prop_loc}}</td>
+    
+    
+    
+        </tr>
+        {{/each}}
+    </table>
+    <br><br><br>
+    <br><br><br>
+    <form>
+        <input type="text" id="id" placeholder="enter your adhar no">
+        <input type="text" id="name" placeholder="enter your name">
+        <input type="text" id="clientid" placeholder="enter buyers id">
+    
+        <button onclick="datasend()">submit </button>
+    </form>
+
+</body>
+
+
+
+<script>
+    function datasend() {
+        var id = document.getElementById('id').value;
+        var clientid = document.getElementById('clientid').value;
+        var name = document.getElementById('name').value;
+        $.post('/req_buy_list', { id: id, clientid: clientid, name: name }, 'json');
+
+    }
+</script>

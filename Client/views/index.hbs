@@ -1,0 +1,47 @@
+
+<link rel='stylesheet' href='/stylesheets/dashboards.css' />
+<h1>Land registration</h1>
+<div class="form-modal">
+ 
+    <div class="form-toggle">
+        <button id="man-toggle" onclick="toggleMan()">Land registration</button>    
+    </div>
+ 
+   
+ 
+    <div>
+        <form>
+            <input id="textInput1" type="text" placeholder="Enter public key" />
+            <table>
+                        <tr>
+                            <td><input id="textInput2" type="text" placeholder="Email"/></td>
+                           
+                        </tr>
+                        <tr>
+                            <td><input id="textInput3" type="date" placeholder="dob"/></td>                          
+                        </tr>
+                        
+             </table>
+            
+
+	     <button type="button" onclick="writemsg(event)" class="btn signup">submit</button>
+         <button type="button"  class="btn signup" onclick= "readmsg(event)" > Read</button>
+           
+        </form>
+
+
+        <form action="/upload" method="post" enctype="multipart/form-data">
+    	
+		<input id="file1" type="file" name='uploadfile' />
+    		<input type="submit" value="submit" />
+	</form>
+    </div>
+</div>
+ 
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src='/javascripts/main.js'></script>
+<p>ipfs link</p>
+<a href="http://localhost:4000">ipfs</ipfs>
+<iframe src="localhost:4000/"></iframe>
+
+

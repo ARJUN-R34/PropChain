@@ -81,7 +81,7 @@
             <br><br><br>
             <br><br><br>
             <p>Enter to view users owned properties</p>
-            <form action="/dd2" method="GET">
+            <form action="/viewuserprops" method="GET">
                 <div class="form-group">
                     <label for="prop_area">Property Area :</label>
                     <input type="text" class="form-control" id="prop_area1" placeholder="Property Area">
@@ -90,7 +90,7 @@
                     <label for="prop_location">Property Location :</label>
                     <input type="text" class="form-control" id="prop_location1" placeholder="Property Location">
                 </div>
-                <button class="btn btn-danger" onclick="dd2()">dashboard</button>
+                <button class="btn btn-danger" onclick="viewuserprops()">Dashboard</button>
             </form>
 
     </div>
@@ -106,10 +106,10 @@
         var prop_loc = document.getElementById('prop_location').value;
         $.post('/propdataupload', { name: prop_name, area: prop_area, location: prop_loc }, 'json');
     }
-    function dd2() {
+    function viewuserprops() {
         var prop_area = document.getElementById('prop_area1').value;
         var prop_loc = document.getElementById('prop_location1').value;
-        $.get('/dd2', { area: prop_area, loc: prop_loc }, 'json');
+        $.get('/viewuserprops', { area: prop_area, loc: prop_loc }, 'json');
     }
     function logout() {
         $.get('/');

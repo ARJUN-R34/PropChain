@@ -37,13 +37,13 @@
 <body class="body">
         <table>
             <tr>
-                <th>Name</th>
-                <th>Adhar</th>
-                <th>Property name</th>
-                <th>Property area</th>
-                <th>property location</th>
-                <th>File name</th>
-                <th>File hash</th>
+                <th>Name &nbsp</th>
+                <th>Aadhar</th>
+                <th>Property Name &nbsp</th>
+                <th>Property Area &nbsp</th>
+                <th>Property Location &nbsp</th>
+                <th>File Name &nbsp</th>
+                <th>File Hash &nbsp</th>
 
 
             </tr>
@@ -52,11 +52,11 @@
             <tr>
                 {{#each this}}
                 <td>{{name}}</td>
-                <td>{{id}}</td>
-                <td>{{property_name}}</td>
-                <td>{{property_area}}</td>
-                <td>{{property_location}}</td>
-                <td>{{file}}</td>
+                <td>{{aadhar}} &nbsp</td>
+                <td>{{property_name}} &nbsp</td>
+                <td>{{property_area}} &nbsp</td>
+                <td>{{property_location}} &nbsp</td>
+                <td>{{file}} &nbsp</td>
                 <td>{{hash}}</td>
 
                 {{/each}}
@@ -67,8 +67,6 @@
         </table>
 
 
-        <br><br>
-        <a href="localhost:4000" target="_blank">Go to ipfs upload module</a>
         <br><br><br>
         <form>
             <input type="text" id="adhno" placeholder="enter users adhar number" />
@@ -79,14 +77,14 @@
             <input type="text" id="adhno2" placeholder="enter users adhar number" />
             <button class="btn btn-danger" onclick="reject()">Reject</button></form>
         <br><br><br>
-        <p>click view data to see data added to the state.Report illeagel entry.</p>
-        <form action="/dd1" method="GET">
-            <button type="submit" class="btn btn-danger" onclick="reject1()">view data</button>
+        <p>Click "View Data" to see Data Added to the State.</p>
+        <form action="/registrarviewdata" method="GET">
+            <button type="submit" class="btn btn-danger" onclick="viewdata()">View Data</button>
 
         </form> <br><br><br>
-        <p>enter to see ownership transfer requests</p>
+        <p>Enter to see Ownership Transfer Requests</p>
         <form action="/transfer" method="GET">
-            <button type="submit" class="btn btn-danger" onclick="transfer()">transfer</button>
+            <button type="submit" class="btn btn-danger" onclick="transfer()">Transfer</button>
 
         </form>
 
@@ -106,15 +104,15 @@
         e.preventDefault();
         var key = document.getElementById('key').value;
         var id = document.getElementById('adhno1').value;
-        $.post('/block', { key: key, id: id }, 'json');
+        $.post('/addtoblock', { key: key, id: id }, 'json');
     };
     function reject(event) {
         var id = document.getElementById('adhno2').value;
-        $.post('/rjct', { id: id });
+        $.post('/reject', { id: id });
     };
-    function reject1(event) {
+    function viewdata(event) {
 
-        $.get('/dd1');
+        $.get('/registrarviewdata');
     };
     function transfer(event) {
 

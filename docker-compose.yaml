@@ -18,7 +18,7 @@ services:
          - https_proxy
          - no_proxy
      volumes:
-         - '.:/project/propertychain/Client'
+         - '.:/project/propertychain'
 
   property-processor:
     container_name: property-processor
@@ -33,7 +33,7 @@ services:
     depends_on:
         - validator
     volumes:
-        - '.:/project/propertychain/Processor'
+        - '.:/project/propertychain'
 
   sawtooth-rest-api:
     container_name: rest-api

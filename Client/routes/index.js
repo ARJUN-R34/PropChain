@@ -179,7 +179,7 @@ router.post('/usr1',(req,res) => {
   upload(req, res, function(err) {
     console.log(' user file is uploaded');
     
-    res.redirect('/usr');
+    res.redirect('/user');
   });
 
 });
@@ -236,7 +236,7 @@ router.post('/hash',(req,res)=>{
 
 
 
-router.post('/block',(req,res)=>{
+router.post('/addtoblock',(req,res)=>{
   var key = req.body.key;
   var id  = req.body.id;
 
@@ -266,7 +266,7 @@ router.post('/block',(req,res)=>{
 
 
 
-router.post('/rjct', (req,res) => {
+router.post('/reject', (req,res) => {
   var id  = req.body.id;
   fs.readdir("../userdata",(err, files)=> { 
     
@@ -288,7 +288,7 @@ router.post('/rjct', (req,res) => {
 
 
 
-router.get('/dd1',async (req,res) => {
+router.get('/registrarviewdata',async (req,res) => {
    
   //var client = new UserClient(null,null,null,null,null,null);
   //temp values are passed to usercleint,null causing error
@@ -311,19 +311,19 @@ router.get('/dd1',async (req,res) => {
     });
   });   
    
-  res.render('dd1',{data:list});
+  res.render('registrar_view_user_property',{data:list});
 });
 
 
 
 
-router.get('/dd2',async (req,res)=>{
+router.get('/viewuserprops',async (req,res)=>{
 
-  var adhar = req.cookies.idValue;
+  var aadhar = req.cookies.idValue;
   var a = [];
   fs.readdir("../userdata",(err, files) => { 
     files.forEach((file)=>{
-      if(file.split('.')[0] == adhar) {
+      if(file.split('.')[0] == aadhar) {
         fs.readFile('../userdata/'+file,(err,data) => {
           let loc =JSON.parse(data).data[1].property_location;
           let area = JSON.parse(data).data[1].property_area;
@@ -359,7 +359,7 @@ router.get('/dd2',async (req,res)=>{
                 }
               }
             })
-            res.render('dd2',{usrlst:userlist,othrlst:otherslist}); 
+            res.render('user_property_details',{usrlst:userlist,othrlst:otherslist}); 
             
           });
         });

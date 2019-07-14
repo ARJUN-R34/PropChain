@@ -16,13 +16,12 @@
         position: fixed;
         z-index: -1;
 
-    .container {
-        margin-top: 5%;
-        margin-bottom: 5%;
-        background: #f05837;
-        padding: 5% 5%;
-    }
-
+        .container {
+            margin-top: 5%;
+            margin-bottom: 5%;
+            background: #f05837;
+            padding: 5% 5%;
+        }
 </style>
 
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -31,68 +30,71 @@
 <!------ Include the above in your HEAD tag ---------->
 
 <body class="body">
-        <h2><b><u>USER DASHBOARD</u></b></h2>
-        <br><br><br>
+    <h2><b><u>USER DASHBOARD</u></b></h2>
+    <br><br><br>
 
-        <form action="/usr1" enctype="multipart/form-data" method="POST">
-            <div class="file-field">
-                <a class="btn-floating blue-gradient mt-0 float-left">
-                    <i class="far fa-heart" aria-hidden="true"></i>
-                    <input type="file" id="myfile" name="myfile">
-                </a>
+    <form action="/userfileupload" enctype="multipart/form-data" method="POST">
+        <div class="file-field">
+            <a class="btn-floating blue-gradient mt-0 float-left">
+                <i class="far fa-heart" aria-hidden="true"></i>
+                <input type="file" id="myfile" name="myfile">
+            </a>
 
-                <div class="file-path-wrapper">
-                    <input class="file-path validate" type="submit" value='upload'>
-                </div>
+            <div class="file-path-wrapper">
+                <input class="file-path validate" type="submit" value='upload'>
             </div>
-        </form>
+        </div>
+    </form>
+    <br><br><br>
+
+    <button class="btn btn-success" onclick="retrievehash()">RETRIEVE HASH</button><br><br><br>
+    <h3>The Hash is : {{hash}} </h3><br><br>
+
+    <form>
+        <h3><b>Username :</b></h3>
+        <br>
+        <h4>{{name}}</h4>
         <br><br><br>
-
+        <h3><b>Aadhar Number :</b></h3>
+        <br>
+        <h4>{{aadhar}}</h4>
+        <br><br><br>
         <form>
-            <h3><b>Username :</b></h3>
-            <br>
-            <h4>{{name}}</h4>
-            <br><br><br>
-            <h3><b>Aadhar Number :</b></h3>
-            <br>
-            <h4>{{aadhar}}</h4>
-            <br><br><br>
-            <form>
-                <div class="form-group">
-                    <label for="prop_name">Property Name :</label>
-                    <input type="text" class="form-control" id="prop_name" placeholder="Enter Property Name">
-                </div>
-                <div class="form-group">
-                    <label for="prop_area">Property Area :</label>
-                    <input type="text" class="form-control" id="prop_area" placeholder="Property Area">
-                </div>
-                <div class="form-group">
-                    <label for="prop_location">Property Location :</label>
-                    <input type="text" class="form-control" id="prop_location" placeholder="Property Location">
-                </div>
-                <button type="button" class="btn btn-success" onclick="send_data()">SUBMIT</button>
-            </form>
-            <br>
+            <div class="form-group">
+                <label for="prop_name">Property Name :</label>
+                <input type="text" class="form-control" id="prop_name" placeholder="Enter Property Name">
+            </div>
+            <div class="form-group">
+                <label for="prop_area">Property Area :</label>
+                <input type="text" class="form-control" id="prop_area" placeholder="Property Area">
+            </div>
+            <div class="form-group">
+                <label for="prop_location">Property Location :</label>
+                <input type="text" class="form-control" id="prop_location" placeholder="Property Location">
+            </div>
+            <button type="button" class="btn btn-success" onclick="send_data()">SUBMIT</button>
+        </form>
+        <br>
 
-            &nbsp &nbsp &nbsp
-            <form action="/" method="GET">
-                <button class="btn btn-danger" onclick="logout()">LOGOUT</button></form>
-            <br><br><br>
-            <br><br><br>
-            <p>Enter to view users owned properties</p>
-            <form action="/viewuserprops" method="GET">
-                <div class="form-group">
-                    <label for="prop_area">Property Area :</label>
-                    <input type="text" class="form-control" id="prop_area1" placeholder="Property Area">
-                </div>
-                <div class="form-group">
-                    <label for="prop_location">Property Location :</label>
-                    <input type="text" class="form-control" id="prop_location1" placeholder="Property Location">
-                </div>
-                <button class="btn btn-danger" onclick="viewuserprops()">Dashboard</button>
-            </form>
+        &nbsp &nbsp &nbsp
+        <form action="/" method="GET">
+            <button class="btn btn-danger" onclick="logout()">LOGOUT</button></form>
+        <br><br><br>
+        <br><br><br>
+        <p>Enter to view users owned properties</p>
+        <form action="/viewuserprops" method="GET">
+            <div class="form-group">
+                <label for="prop_area">Property Area :</label>
+                <input type="text" class="form-control" id="prop_area1" placeholder="Property Area">
+            </div>
+            <div class="form-group">
+                <label for="prop_location">Property Location :</label>
+                <input type="text" class="form-control" id="prop_location1" placeholder="Property Location">
+            </div>
+            <button class="btn btn-danger" onclick="viewuserprops()">Dashboard</button>
+        </form>
 
-    </div>
+        </div>
 
 
 </body>
@@ -112,5 +114,8 @@
     }
     function logout() {
         $.get('/');
+    }
+    function retrievehash() {
+        $.post('/retrievehash');
     }
 </script>

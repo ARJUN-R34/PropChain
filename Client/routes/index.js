@@ -328,42 +328,19 @@ router.post('/addtoblock', (req, res) => {
         });
     });
 
-    var firebase = Firebase();
-    console.log("----------------------" , firebase);
+    // var firebase = Firebase();
+    // console.log("----------------------" , firebase);
 
     res.redirect('back');
 });
 
 
-function Firebase() {
+// function Firebase() {
+
+//     var id = req.body.id;
     //Code to add to the firebase
-    var firebaseConfig = {
-
-        apiKey: "AIzaSyCk_yL067MZyju1WXb7mjjGpPnbZcAvjvY",
-        authDomain: "hyperledger-8c134.firebaseapp.com",
-        databaseURL: "https://hyperledger-8c134.firebaseio.com",
-        projectId: "hyperledger-8c134",
-        storageBucket: "hyperledger-8c134.appspot.com",
-        messagingSenderId: "907241265637",
-        appId: "1:907241265637:web:a36f1b58ce2a10aa"
-
-    };
-
-    firebase.initializeApp(firebaseConfig);
-
-    fs.readdir("../uploads", (err, files) => {
-        files.forEach((file) => {
-            if (file.split('-')[0] == id) {
-
-                const ref = firebase.storage().ref();
-                const metadata = { contentType: file.type };
-                var store = ref.put(file);
-
-            }
-            return store;
-        });
-    });
-}
+    
+//}
 
 
 router.post('/reject', (req, res) => {

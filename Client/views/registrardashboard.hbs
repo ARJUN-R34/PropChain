@@ -32,6 +32,26 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-app.js"></script>
+
+<script>
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+        apiKey: "AIzaSyCk_yL067MZyju1WXb7mjjGpPnbZcAvjvY",
+        authDomain: "hyperledger-8c134.firebaseapp.com",
+        databaseURL: "https://hyperledger-8c134.firebaseio.com",
+        projectId: "hyperledger-8c134",
+        storageBucket: "hyperledger-8c134.appspot.com",
+        messagingSenderId: "907241265637",
+        appId: "1:907241265637:web:a36f1b58ce2a10aa"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    var id = document.getElementById('adhno1').value;
+
+</script>
+
 <!------ Include the above in your HEAD tag ---------->
 
 <body class="body">
@@ -42,7 +62,6 @@
                 <th>Property Name &nbsp</th>
                 <th>Property Area &nbsp</th>
                 <th>Property Location &nbsp</th>
-                <th>File Name &nbsp</th>
                 <th>File Hash &nbsp</th>
 
 
@@ -56,7 +75,6 @@
                 <td>{{property_name}} &nbsp</td>
                 <td>{{property_area}} &nbsp</td>
                 <td>{{property_location}} &nbsp</td>
-                <td>{{file}} &nbsp</td>
                 <td>{{hash}}</td>
 
                 {{/each}}
@@ -69,11 +87,12 @@
 
         <br><br><br>
         <form>
-            <input type="text" id="adhno" class="form-control" placeholder="Enter User's Aadhar Number" /><br>
-            <button class="btn btn-success" onclick="retrive_hash(event)">Get Hash</button><br><br>
+            {{!-- <input type="text" id="adhno" class="form-control" placeholder="Enter User's Aadhar Number" /><br>
+            <button class="btn btn-success" onclick="retrive_hash(event)">Get Hash</button><br><br> --}}
             <hr style="height:1px; border:none; color:#000; background-color:#000; width:80%; text-align:center; margin: 0 auto;"><br><br>
             <input type="text" id="adhno1" class="form-control" placeholder="Enter User's Aadhar Number" /><br>
             <input type="text" id="key" class="form-control" placeholder="Enter Registrar's Private Key" /><br>
+            <input type="text" id="hash" class="form-control" placeholder="Enter the File Hash" /><br>
             <button class="btn btn-success" onclick="send_to_block(event)">Add to Block</button><br><br>
             <hr style="height:1px; border:none; color:#000; background-color:#000; width:80%; text-align:center; margin: 0 auto;">
             <br><br>
@@ -102,16 +121,13 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 
 <script>
-    function retrive_hash(event) {
-        var id = document.getElementById('adhno').value;
-        event.preventDefault();
-        $.post('/hash', { id: id }, 'json');
-    };
     function send_to_block(e) {
         e.preventDefault();
         var key = document.getElementById('key').value;
         var id = document.getElementById('adhno1').value;
-        $.post('/addtoblock', { key: key, id: id }, 'json');
+        var prop_hash = document.getElementById('hash').value;
+
+        $.post('/addtoblock', { key: key, id: id, prop_hash: prop_hash }, 'json');
     };
     function reject(event) {
         var id = document.getElementById('adhno2').value;

@@ -17,7 +17,7 @@ function hash(v) {
 
 class UserClient{
 
-  constructor(key,id,name,property_name,property_area,property_location){
+  constructor(key,id,name,property_name,property_area,property_location,prop_hash){
 
     if(key){prkey=key;}
     else if(key==undefined | key==null){key=prkey;}
@@ -27,7 +27,7 @@ class UserClient{
     this.signer = new CryptoFactory(context).newSigner(secp256k1pk);
     this.publicKey = this.signer.getPublicKey().asHex();
     //this.address = hash("landreg").substr(0, 6) + hash(this.publicKey).substr(0, 64);
-   this.address = hash(FAMILY_NAME).substr(0, 6) +hash(property_location).substr(0,10)+hash(property_area).substr(0,10)+hash(property_name).substr(0,10)+hash(this.publicKey).substr(0, 34);
+   this.address = hash(FAMILY_NAME).substr(0, 6) + hash(property_location).substr(0, 10) + hash(property_area).substr(0, 10) + hash(property_name).substr(0, 10)+ hash(this.publicKey).substr(0, 34);
 
     console.log("Storing at ------------------------------------- " + this.address);
     

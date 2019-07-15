@@ -5,6 +5,7 @@ var fs = require('fs');
 const multer = require('multer');
 const path = require('path');
 
+var firebase = require("firebase/app");
 var crypto = require('crypto');
 var router = express.Router();
 
@@ -42,11 +43,11 @@ router.get('/user', (req, res) => {
         field_data = field_data[0];
         name = JSON.stringify(field_data.name);
         aadhar = JSON.stringify(field_data.aadhar);
-        hash = "";
+        checksum = "";
         res.render('userdashboard', {
             name,
             aadhar,
-            hash
+            checksum
         });
 
     });
@@ -67,11 +68,10 @@ router.post('/user', (req, res) => {
     var obj = {
         data: []
     };
+
     obj.data.push({
         aadhar: aadhar,
-        name: name,
-        file: 'not available',
-        hash: 'not available'
+        name: name
     });
 
     var jsonData = JSON.stringify(obj);
@@ -141,8 +141,8 @@ router.get('/registrar', (req, res) => {
 
                 //if(global_data.data[1]!=undefined) Cannot read property '1' of undefined delete the files in userdata and it will work
 
-                if (global_data.data[1] != undefined) {
-                    global_data.data[0] = Object.assign(global_data.data[0], global_data.data[1]);
+                if (global_data.data[0] != undefined) {
+                    global_data.data[0] = Object.assign(global_data.data[0], global_data.data[1], global_data.data[2]);
                     global_data.data.pop();
                 }
 
@@ -190,6 +190,7 @@ router.post('/userfileupload', (req, res) => {
     var upload = multer({
         storage: storage
     }).single('myfile');
+
     upload(req, res, function (err) {
         console.log('User File is Uploaded ------------------------------ ');
 
@@ -204,15 +205,43 @@ router.post('/retrievehash' , (req, res) => {
     fs.readdir("../uploads", (err, files) => {
         files.forEach((file) => {
             if (file.split('-')[0] == id) {
-                var hash = crypto.createHash('sha256');
-                hash_update = hash.update('file', 'utf-8');
-                generated_hash = hash_update.digest('hex');
-                console.log("The Generated Hash ---------------------------- ", generated_hash);
+                // var hash = crypto.createHash('sha256');
+                // hash_update = hash.update('file' , '7bit');
+                // generated_hash = hash_update.digest('hex');
+                // console.log("The Generated Hash ---------------------------- ", generated_hash);
+                var checksum = generateChecksum(file);
+                console.log("The hash is ------------------------ " , checksum);
+
+                var file_name = req.cookies.file_name;
+                fs.readFile(file_name, 'utf8', (err, data) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        obj = JSON.parse(data);
+                        obj.data.push({
+                            hash: checksum
+                        });
+                        json = JSON.stringify(obj);
+                        fs.writeFile(file_name, json, 'utf8', (err) => {
+                            if (err) {
+                                console.log('userdata.json unavailable');
+                            }
+                        });
+                    }
+                });
+
             }
-        });
+        });        
     });
-    res.redirect('/user' , { hash: generated_hash });
+    res.render('userdashboard' , { checksum });
 });
+
+function generateChecksum(str) {
+    return crypto
+        .createHash('sha256')
+        .update(str, 'utf8')
+        .digest('hex');
+}
 
 
 router.post('/propdataupload', (req, res) => {
@@ -244,35 +273,37 @@ router.post('/propdataupload', (req, res) => {
 
 
 
-router.post('/hash', (req, res) => {
-    var id = req.body.id;
+// router.post('/hash', (req, res) => {
+//     var id = req.body.id;
 
-    fs.readFile('../ipfs-upload/test1', function (err, data) {
-        if (err) throw err;
+//     fs.readFile('../ipfs-upload/test1', function (err, data) {
+//         if (err) throw err;
 
-        fs.readdir("../userdata", (err, files) => {
-            files.forEach((file) => {
+//         fs.readdir("../userdata", (err, files) => {
+//             files.forEach((file) => {
 
-                if (file.split('.')[0] == id) {
-                    var global_data = fs.readFileSync('../userdata/' + file).toString();
-                    data = data.toString();
-                    global_data = JSON.parse(global_data);
-                    global_data.data[0].hash = data;
-                    fs.writeFile("../userdata/" + file, JSON.stringify(global_data), {
-                        flag: 'w'
-                    }, function (err) {});
-                }
-            });
-        });
-    });
-    res.redirect('back');
-});
+//                 if (file.split('.')[0] == id) {
+//                     var global_data = fs.readFileSync('../userdata/' + file).toString();
+//                     data = data.toString();
+//                     global_data = JSON.parse(global_data);
+//                     global_data.data[0].hash = data;
+//                     fs.writeFile("../userdata/" + file, JSON.stringify(global_data), {
+//                         flag: 'w'
+//                     }, function (err) {});
+//                 }
+//             });
+//         });
+//     });
+//     res.redirect('back');
+// });
 
 
 
 router.post('/addtoblock', (req, res) => {
     var key = req.body.key;
     var id = req.body.id;
+    var prop_hash = req.body.prop_hash;
+
 
     fs.readdir("../userdata", (err, files) => {
         files.forEach((file) => {
@@ -282,22 +313,57 @@ router.post('/addtoblock', (req, res) => {
                     data = JSON.parse(data);
 
                     let name = data.data[0].name;
-                    let hash = data.data[0].hash;
+                    let id = data.data[0].aadhar;
                     let property_name = data.data[1].property_name;
                     let property_area = data.data[1].property_area;
                     let property_location = data.data[1].property_location;
+                    let prop_hash = data.data[2].hash;
 
-                    var client = new UserClient(key, id, name, property_name, property_area, property_location);
-                    client.send_data([id, name, property_name, property_area, property_location, hash]);
+                    var client = new UserClient(key, id, name, property_name, property_area, property_location, prop_hash);
+                    client.send_data([id, name, property_name, property_area, property_location, prop_hash]);
                     fs.unlinkSync('../userdata/' + file);
 
                 });
             }
         });
     });
+
+    var firebase = Firebase();
+    console.log("----------------------" , firebase);
+
     res.redirect('back');
 });
 
+
+function Firebase() {
+    //Code to add to the firebase
+    var firebaseConfig = {
+
+        apiKey: "AIzaSyCk_yL067MZyju1WXb7mjjGpPnbZcAvjvY",
+        authDomain: "hyperledger-8c134.firebaseapp.com",
+        databaseURL: "https://hyperledger-8c134.firebaseio.com",
+        projectId: "hyperledger-8c134",
+        storageBucket: "hyperledger-8c134.appspot.com",
+        messagingSenderId: "907241265637",
+        appId: "1:907241265637:web:a36f1b58ce2a10aa"
+
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    fs.readdir("../uploads", (err, files) => {
+        files.forEach((file) => {
+            if (file.split('-')[0] == id) {
+
+                const ref = firebase.storage().ref();
+                const metadata = { contentType: file.type };
+                var store = ref.put(file);
+
+            }
+            return store;
+        });
+    });
+}
 
 
 router.post('/reject', (req, res) => {

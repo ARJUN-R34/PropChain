@@ -21,7 +21,7 @@
     "jade": "~1.11.0",
     "morgan": "~1.9.0",
     "multer": "^1.4.1",
-    "node-fetch": "^2.3.0",
+    "node-fetch": "^2.6.1",
     "node-sessionstorage": "^1.0.0",
     "rimraf": "^2.6.3",
     "sawtooth-sdk": "^1.0.5",
